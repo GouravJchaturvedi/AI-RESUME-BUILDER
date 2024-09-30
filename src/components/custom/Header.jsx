@@ -4,20 +4,20 @@ import { Link } from "react-router-dom";
 import { UserButton, useUser } from "@clerk/clerk-react";
 
 function Header() {
-  const { user, isSignedIn } = useUser();
+  const { user, isSignedIn} = useUser();
   return (
     <div className="p-3 px-5 flex justify-between shadow-md">
-      <img src="/logo.svg" alt="logo" width={100} height={100} />
+      <img src="/logo.svg" alt="logo" width={60} height={60} />
       {isSignedIn ? (
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center rounded-xl">
           <Link to={"/dashboard"}>
-            <Button>Dashboard</Button>
+            <Button className="rounded-xl flex items-center">Dashboard</Button>
           </Link>
           <UserButton />
         </div>
       ) : (
         <Link to={"/auth/sign-in"}>
-          <Button className="rounded-xl"> Get Started </Button>
+          <Button className="rounded-xl flex mt-2 items-center"> Get Started </Button>
         </Link>
       )}
     </div>
