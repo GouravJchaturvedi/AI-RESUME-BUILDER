@@ -1,6 +1,7 @@
 import { PlusSquare } from "lucide-react";
 import React from "react";
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
+import { v4 as uuid } from "uuid";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +14,12 @@ import { Button } from "@/components/ui/button";
 
 function AddResume() {
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [resumeTitle, setResumeTitle] = React.useState("");
+
+  const onCreate = () => {
+    const uid = uuid();
+    console.log(resumeTitle, uid);
+  };
   return (
     <div>
       <div
@@ -26,12 +33,24 @@ function AddResume() {
           <DialogHeader>
             <DialogTitle>Create new Resume</DialogTitle>
             <DialogDescription>
-                <p>Add a Title for your new Resume</p>
-                <Input className='mt-2' placeholder="Ex.Full Stack Developer"/>
+              <p>Add a Title for your new Resume</p>
+              <Input
+                className="mt-2"
+                placeholder="Ex.Full Stack Developer"
+                onChange={(e) => setResumeTitle(e.target.value)}
+              />
             </DialogDescription>
             <div className="flex justify-end pt-3 gap-2 max-sm:justify-center">
-                <Button variant="outline" className="border-gray-600" onClick={() => setOpenDialog(false)}>Cancel</Button>
-                <Button>Create</Button>
+              <Button
+                variant="outline"
+                className="border-gray-600"
+                onClick={() => setOpenDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button disabled={!resumeTitle} onClick={onCreate()}>
+                Create
+              </Button>
             </div>
           </DialogHeader>
         </DialogContent>

@@ -7,7 +7,7 @@ function Dashboard() {
       <h2 className='font-bold text-3xl'>
         My Resume
       </h2>
-      <p className='uppercase'>Start creating Ai resume for your next job role</p>
+      <p className='uppercase'>Begin crafting your AI resume for your next job opportunity.</p>
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5'>
         <AddResume/>
       </div>
