@@ -19,11 +19,11 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element: <Dashboard />,
       },
+      {
+        path: "/dashboard/resume/:resumeId/edit",
+        element: <EditResume />,
+      },
     ],
-  },
-  {
-    path: "/dashboard/resume/:resumeId/edit",
-    element: <EditResume />,
   },
   {
     path: "/",
@@ -34,6 +34,7 @@ const router = createBrowserRouter([
     element: <SignInPage />,
   },
 ]);
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
