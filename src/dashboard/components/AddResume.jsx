@@ -1,4 +1,4 @@
-import { PlusSquare } from "lucide-react";
+import { Loader2, PlusSquare } from "lucide-react";
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { v4 as uuid } from "uuid";
@@ -11,14 +11,42 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import GlobalApi from "./../../../service/GlobalApi";
+import { data } from "autoprefixer";
+import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
 function AddResume() {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [resumeTitle, setResumeTitle] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const { user } = useUser();
+  const navigation = useNavigate();
 
   const onCreate = () => {
+    setLoading(true);
     const uid = uuid();
-    console.log(resumeTitle, uid);
+    const data = {
+      data: {
+        title: resumeTitle,
+        resumeId: uid,
+        userEmail: user?.primaryEmailAddress?.emailAddress,
+        userName: user?.fullName,
+      },
+    };
+    GlobalApi.createNewResume(data).then(
+      (resp) => {
+        console.log(resp.data.data.documentId);
+        if (resp) {
+          setLoading(false);
+          navigation(`/dashboard/resume/${resp.data.data.documentId}/edit`);
+        }
+      },
+      (error) => {
+        setLoading(false);
+        console.log(error);
+      }
+    );
   };
   return (
     <div>
@@ -48,8 +76,8 @@ function AddResume() {
               >
                 Cancel
               </Button>
-              <Button disabled={!resumeTitle} onClick={onCreate()}>
-                Create
+              <Button disabled={!resumeTitle || loading} onClick={onCreate}>
+                {loading ? <Loader2 className="anime-spin" /> : "Create"}
               </Button>
             </div>
           </DialogHeader>
