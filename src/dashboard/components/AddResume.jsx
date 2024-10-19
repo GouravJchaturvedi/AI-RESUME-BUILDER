@@ -77,7 +77,7 @@ function AddResume() {
                 Cancel
               </Button>
               <Button disabled={!resumeTitle || loading} onClick={onCreate}>
-                {loading ? <Loader2 className="anime-spin" /> : "Create"}
+                {loading ? <Loader2 className="animate-spin" /> : "Create"}
               </Button>
             </div>
           </DialogHeader>
