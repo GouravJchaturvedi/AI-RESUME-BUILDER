@@ -25,7 +25,7 @@ function ExperiencePreview({ resumeInfo }) {
               {exp?.currentlyWorking ? "Present" : exp?.endDate}
             </span>
           </h2>
-          <p className="text-xs my-2">{exp.workSummary}</p>
+          <div dangerouslySetInnerHTML={{__html:exp?.workSummary}}/>
         </div>
       ))}
     </div>

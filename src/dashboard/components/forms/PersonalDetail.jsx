@@ -112,7 +112,7 @@ function PersonalDetail({ enabledNext }) {
           </div>
         </div>
         <div className="mt-3 flex justify-end">
-          <Button type="submit" diabled={loading}>
+          <Button type="submit" disabled={loading}>
             {loading ? <LoaderCircle className="animate-spin" /> : "Save"}
           </Button>
         </div>
