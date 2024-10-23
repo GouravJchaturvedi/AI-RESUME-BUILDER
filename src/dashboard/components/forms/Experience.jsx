@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import React, { useContext, useEffect, useState } from "react";
 import RichTextEditor from "../RichTextEditor";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
+import { LoaderCircle } from "lucide-react";
 
 const formField = {
   title: "",
@@ -15,6 +16,7 @@ const formField = {
 };
 
 function Experience() {
+  const [loading , setLoading] = useState(false)
   const [experienceList, setExperienceList] = useState([formField]);
 
   const {resumeInfo , setResumeInfo} = useContext(ResumeInfoContext)
@@ -122,7 +124,11 @@ function Experience() {
             - Remove
           </Button>
         </div>
-        <Button onClick={handleSave}>Save</Button>
+        <div className="mt-3 flex justify-end">
+          <Button type="submit" disabled={loading}>
+            {loading ? <LoaderCircle className="animate-spin" /> : "Save"}
+          </Button>
+        </div>
       </div>
     </div>
   );
