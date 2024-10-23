@@ -6,11 +6,12 @@ import Summary from "@/dashboard/components/forms/Summary";
 import Experience from "@/dashboard/components/forms/Experience";
 import Education from "@/dashboard/components/forms/Education";
 import Skills from "@/dashboard/components/forms/Skills";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 
 function FormSection() {
   const [activeFormIndex, setActiveFormIndex] = useState(1);
   const [enableNext, setEnableNext] = useState(true);
+  const { resumeId } = useParams();
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -55,6 +56,8 @@ function FormSection() {
         <Education enabledNext={(v) => setEnableNext(v)} />
       ) : activeFormIndex === 5 ? (
         <Skills enabledNext={(v) => setEnableNext(v)} />
+      ) : activeFormIndex === 6 ? (
+        <Navigate to={"/my-resume/" + resumeId + "/view"} />
       ) : null}
 
       {/* Experience */}
