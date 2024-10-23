@@ -6,14 +6,22 @@ import Header from "@/components/custom/Header";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import dummy from "@/data/dummy";
 import { useState } from "react";
+import GlobalApi from "../../../../../service/GlobalApi";
 
 function EditResume() {
-  const params = useParams();
+  const { resumeId } = useParams();
   const [resumeInfo, setResumeInfo] = useState();
 
   useEffect(() => {
-    setResumeInfo(dummy);
+    getResumeInfo();
   }, []);
+
+  const getResumeInfo = () => {
+    GlobalApi.getResumeById(resumeId).then((resp) => {
+      console.log(resp.data.data);
+      setResumeInfo(resp.data.data);
+    });
+  };
   return (
     <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
       <div className="grid grid-cols-1 md:grid-cols-2 p-10 gap-10">
