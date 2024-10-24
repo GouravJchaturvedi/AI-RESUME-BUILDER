@@ -3,17 +3,28 @@ import { Button } from "@/components/ui/button";
 import { ResumeInfoContext } from "@/context/ResumeInfoContext";
 import ResumePreview from "@/dashboard/resume/components/ResumePreview";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import GlobalApi from "../../../../service/GlobalApi";
 import { RWebShare } from "react-web-share";
+import { useUser } from "@clerk/clerk-react";
 
 function ViewResume() {
+  const { user, isLoaded } = useUser();
   const [resumeInfo, setResumeInfo] = useState();
   const { resumeId } = useParams();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-    getResumeInfo();
-  }, []);
+    if (isLoaded) {
+      if (!user) {
+        navigate("/"); 
+      } else {
+        getResumeInfo();
+      }
+      setLoading(false); 
+    }
+  }, [isLoaded, user, navigate]);
 
   const getResumeInfo = () => {
     GlobalApi.getResumeById(resumeId).then((resp) => {
@@ -25,6 +36,10 @@ function ViewResume() {
   const handleDownload = () => {
     window.print();
   };
+
+  if (loading) {
+    return null; 
+  }
 
   return (
     <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
@@ -39,8 +54,8 @@ function ViewResume() {
             <RWebShare
               data={{
                 text: "Hello! I'm excited to share my resume with you. Please open the URL to view it.",
-                url: import.meta.env.VITE_BASE_URL+"/my-resume/"+resumeId+"/view",
-                title: resumeInfo?.firstName+" "+resumeInfo?.lastName+" resume",
+                url: `${import.meta.env.VITE_BASE_URL}/my-resume/${resumeId}/view`,
+                title: `${resumeInfo?.firstName} ${resumeInfo?.lastName} resume`,
               }}
               onClick={() => console.log("shared successfully!")}
             >

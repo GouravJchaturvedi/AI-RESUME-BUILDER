@@ -3,7 +3,7 @@ import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom"; 
 import { TypographyH1 } from "./HeadingHero";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, GithubIcon, PenTool, PlayIcon } from "lucide-react";
+import { ArrowRight, GithubIcon, LaptopIcon, PenTool, PlayIcon } from "lucide-react";
 import TypewriterText from "./TypeWriter";
 
 function HomePage() {
@@ -77,7 +77,7 @@ function HomePage() {
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl w-full"> 
             <div className="p-8 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md"> 
-              <PenTool className="mb-4" />
+              <LaptopIcon className="mb-4" />
               <TypographyH1
                 content={"Easy to Use"}
                 color={"text-black"}
