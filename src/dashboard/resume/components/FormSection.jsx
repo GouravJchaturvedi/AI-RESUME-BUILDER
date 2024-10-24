@@ -7,6 +7,7 @@ import Experience from "@/dashboard/components/forms/Experience";
 import Education from "@/dashboard/components/forms/Education";
 import Skills from "@/dashboard/components/forms/Skills";
 import { Link, Navigate, useParams } from "react-router-dom";
+import ThemeColor from "@/dashboard/components/ThemeColor";
 
 function FormSection() {
   const [activeFormIndex, setActiveFormIndex] = useState(1);
@@ -21,10 +22,7 @@ function FormSection() {
               <Home />
             </Button>
           </Link>
-          <Button variant="outline" size="sm" className="flex gap-2">
-            {" "}
-            <LayoutGrid /> Theme
-          </Button>
+          <ThemeColor/>
         </div>
         <div className="flex gap-2">
           {activeFormIndex > 1 && (
