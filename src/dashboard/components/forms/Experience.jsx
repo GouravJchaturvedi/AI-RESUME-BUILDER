@@ -21,18 +21,23 @@ function Experience() {
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
 
   useEffect(() => {
-    if (resumeInfo?.Experience) {
-      setExperienceList(resumeInfo.Experience);
+    if (resumeInfo?.experience) {
+      setExperienceList(resumeInfo.experience);
     } else {
       setExperienceList([formField]);
     }
   }, [resumeInfo]);
 
   const handleChange = (index, e) => {
-    const newEntries = experienceList.slice();
     const { name, value } = e.target;
-    newEntries[index][name] = value;
+    const newEntries = experienceList.map((entry, i) =>
+      i === index ? { ...entry, [name]: value } : entry
+    );
     setExperienceList(newEntries);
+    setResumeInfo((prev) => ({
+      ...prev,
+      experience: newEntries,
+    }));
   };
 
   const addNewExperience = () => {
@@ -44,24 +49,15 @@ function Experience() {
   };
 
   const handleRichTextEditor = (e, name, index) => {
-    const newEntries = experienceList.slice();
-    newEntries[index][name] = e.target.value;
+    const newEntries = experienceList.map((entry, i) =>
+      i === index ? { ...entry, [name]: e.target.value } : entry
+    );
     setExperienceList(newEntries);
+    setResumeInfo((prev) => ({
+      ...prev,
+      experience: newEntries,
+    }));
   };
-
-  useEffect(() => {
-    setResumeInfo((prevResumeInfo) => {
-      const newExperience = experienceList;
-      // Only update if the experience list has changed
-      if (JSON.stringify(prevResumeInfo.experience) !== JSON.stringify(newExperience)) {
-        return {
-          ...prevResumeInfo,
-          experience: newExperience,
-        };
-      }
-      return prevResumeInfo; // Return the old state if nothing has changed
-    });
-  }, [experienceList, setResumeInfo]);
 
   return (
     <div className="p-5 shadow-lg rounded-lg border-t-black border-t-4 mt-10">
@@ -76,7 +72,7 @@ function Experience() {
                 <Input
                   name="title"
                   onChange={(e) => handleChange(index, e)}
-                  defaultValue={item?.title}
+                  value={item?.title}
                 />
               </div>
               <div>
@@ -84,25 +80,31 @@ function Experience() {
                 <Input
                   name="companyName"
                   onChange={(e) => handleChange(index, e)}
-                  defaultValue={item?.companyName}
+                  value={item?.companyName}
                 />
               </div>
               <div>
                 <label className="text-xs">City</label>
-                <Input name="city" onChange={(e) => handleChange(index, e)} 
-                defaultValue={item?.city}/>
+                <Input
+                  name="city"
+                  onChange={(e) => handleChange(index, e)}
+                  value={item?.city}
+                />
               </div>
               <div>
                 <label className="text-xs">State</label>
-                <Input name="state" onChange={(e) => handleChange(index, e)} 
-                defaultValue={item?.state}/>
+                <Input
+                  name="state"
+                  onChange={(e) => handleChange(index, e)}
+                  value={item?.state}
+                />
               </div>
               <div>
                 <label className="text-xs">Start Date</label>
                 <Input
                   name="startDate"
                   onChange={(e) => handleChange(index, e)}
-                  defaultValue={item?.startDate}
+                  value={item?.startDate}
                 />
               </div>
               <div>
@@ -110,13 +112,13 @@ function Experience() {
                 <Input
                   name="endDate"
                   onChange={(e) => handleChange(index, e)}
-                  defaultValue={item?.endDate}
+                  value={item?.endDate}
                 />
               </div>
               <div className="col-span-2">
                 <RichTextEditor
                   index={index}
-                  defaultValue={item?.workSummary}
+                  value={item?.workSummary} 
                   onRichTextEditorChange={(event) =>
                     handleRichTextEditor(event, "workSummary", index)
                   }
