@@ -11,24 +11,24 @@ function Dashboard() {
   const [resumeList, setResumeList] = useState([]);
   const navigate = useNavigate();
 
+  const getResumeList = async () => {
+    if (isLoaded && user?.primaryEmailAddress?.emailAddress) {
+      try {
+        const resp = await GlobalApi.getUserResumes(
+          user.primaryEmailAddress.emailAddress
+        );
+        setResumeList(resp.data.data);
+      } catch (error) {
+        console.error("Error fetching resumes:", error);
+      }
+    }
+  };
+
   useEffect(() => {
     if (isLoaded && !user) {
       navigate("/auth/sign-in");
       return;
     }
-
-    const getResumeList = async () => {
-      if (isLoaded && user?.primaryEmailAddress?.emailAddress) {
-        try {
-          const resp = await GlobalApi.getUserResumes(
-            user.primaryEmailAddress.emailAddress
-          );
-          setResumeList(resp.data.data);
-        } catch (error) {
-          console.error("Error fetching resumes:", error);
-        }
-      }
-    };
 
     getResumeList();
   }, [isLoaded, user, navigate]);
@@ -41,11 +41,15 @@ function Dashboard() {
       </p>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
         <AddResume />
-        {resumeList.length > 0 ? (
-          resumeList.map((resume, index) => (
-            <ResumeCardItem resume={resume} key={index} />
-          ))
-        ) : null}
+        {resumeList.length > 0
+          ? resumeList.map((resume, index) => (
+              <ResumeCardItem
+                resume={resume}
+                key={index}
+                refreshData={getResumeList}
+              />
+            ))
+          : null}
       </div>
     </div>
   );

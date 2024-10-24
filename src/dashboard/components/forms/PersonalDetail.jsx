@@ -11,23 +11,32 @@ function PersonalDetail({ enabledNext }) {
   const params = useParams();
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
 
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState({
+    firstName: resumeInfo?.firstName || "",
+    lastName: resumeInfo?.lastName || "",
+    jobTitle: resumeInfo?.jobTitle || "",
+    address: resumeInfo?.address || "",
+    phone: resumeInfo?.phone || "",
+    email: resumeInfo?.email || "",
+  });
+  
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     console.log(params);
-  }, []);
+  }, [params]);
+
   const handleInputChange = (e) => {
     enabledNext(false);
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
-    setResumeInfo({
-      ...resumeInfo,
+    }));
+    setResumeInfo((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   const onSave = (e) => {
@@ -35,26 +44,24 @@ function PersonalDetail({ enabledNext }) {
     setLoading(true);
 
     const data = {
-      data: {
-        Experience: experinceList.map(({ id, ...rest }) => rest),
-      },
+      data: formData,  
     };
 
-    console.log(experinceList)
-    
     GlobalApi.updateResumeDetail(params?.resumeId, data).then(
       (resp) => {
         console.log(resp);
         enabledNext(true);
         setLoading(false);
-        toast("Details Updated");
+        toast.success("Details Updated");
       },
       (error) => {
         setLoading(false);
+        console.error(error); 
+        toast("Internal server error")
       }
     );
-    enabledNext(true);
   };
+
   return (
     <div className="p-5 shadow-lg rounded-lg border-t-black border-t-4 mt-10">
       <h2 className="font-bold text-lg">Personal Detail</h2>

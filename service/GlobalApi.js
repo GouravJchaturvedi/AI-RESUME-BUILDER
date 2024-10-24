@@ -19,9 +19,12 @@ const updateResumeDetail = (id, data) =>
 
 const getResumeById = (id) => axiosClient.get(`/user-resumes/${id}?populate=*`);
 
+const deleteResumeById = (id) => axiosClient.delete('/user-resumes/' +id)
+
 export default {
   createNewResume,
   getUserResumes,
   updateResumeDetail,
   getResumeById,
+  deleteResumeById
 };

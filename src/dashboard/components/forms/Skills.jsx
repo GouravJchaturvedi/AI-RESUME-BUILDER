@@ -20,7 +20,7 @@ function Skills() {
   const { resumeId } = useParams();
   const [loading, setLoading] = useState(false);
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
-  
+
   const handleChange = (index, name, value) => {
     const newEntries = skillsList.slice();
     newEntries[index][name] = value;
@@ -82,7 +82,10 @@ function Skills() {
 
       <div>
         {skillsList.map((item, index) => (
-          <div key={index} className="flex justify-between border p-3 my-5 rounded-lg">
+          <div
+            key={index}
+            className="flex justify-between border p-3 my-5 rounded-lg"
+          >
             <div>
               <label className="text-xs">Name</label>
               <Input
@@ -117,10 +120,7 @@ function Skills() {
           </Button>
         </div>
         <div className="mt-3 flex justify-end">
-          <Button 
-            onClick={onSave} 
-            disabled={loading}
-          >
+          <Button onClick={onSave} disabled={loading}>
             {loading ? <LoaderCircle className="animate-spin" /> : "Save"}
           </Button>
         </div>
