@@ -75,8 +75,8 @@ function HomePage() {
             size={"4xl"}
             className="text-center mb-6"
           />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl w-full">
-            <div className="p-6 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl w-full"> 
+            <div className="p-8 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md"> 
               <PenTool className="mb-4" />
               <TypographyH1
                 content={"Easy to Use"}
@@ -88,7 +88,7 @@ function HomePage() {
                 interface.
               </p>
             </div>
-            <div className="p-6 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md">
+            <div className="p-8 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md"> 
               <PlayIcon className="mb-4" />
               <TypographyH1
                 content={"Interactive Preview"}
@@ -97,7 +97,7 @@ function HomePage() {
               />
               <p>See real-time changes as you build your resume.</p>
             </div>
-            <div className="p-6 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md">
+            <div className="p-8 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md"> 
               <GithubIcon className="mb-4" />
               <TypographyH1
                 content={"Open Source"}
@@ -118,25 +118,28 @@ function HomePage() {
             size={"2xl"}
             className="text-center my-7"
           />
-          <div className="flex flex-col md:flex-row gap-6 max-w-4xl w-full mb-20">
-            <div className="flex-1 p-6 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md ">
+          <div className="flex flex-col md:flex-row gap-8 max-w-4xl w-full mb-20"> 
+            <div className="flex-1 p-8 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md "> 
               <TypographyH1
                 content={"1. Start with a Template"}
                 color={"text-black"}
+                size={'xl'}
               />
               <p>Select a professional template to get started.</p>
             </div>
-            <div className="flex-1 p-6 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md ">
+            <div className="flex-1 p-8 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md "> 
               <TypographyH1
                 content={"2. Customize Your Details"}
                 color={"text-black"}
+                size={'xl'}
               />
               <p>Fill in your information and adjust as needed.</p>
             </div>
-            <div className="flex-1 p-6 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md ">
+            <div className="flex-1 p-8 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md "> 
               <TypographyH1
                 content={"3. Download Your Resume"}
                 color={"text-black"}
+                size={'xl'}
               />
               <p>Save your resume in multiple formats.</p>
             </div>
