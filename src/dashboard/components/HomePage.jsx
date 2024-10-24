@@ -1,21 +1,25 @@
 import React from "react";
 import { useUser } from "@clerk/clerk-react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom"; 
 import { TypographyH1 } from "./HeadingHero";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, GithubIcon, PenTool, PlayIcon } from "lucide-react";
 import TypewriterText from "./TypeWriter";
 
 function HomePage() {
-  const { isSignedIn } = useUser(); // Get the signed-in status
-  const navigate = useNavigate(); // Initialize useNavigate
+  const { isSignedIn } = useUser(); 
+  const navigate = useNavigate(); 
 
   const handleGetStarted = () => {
     if (isSignedIn) {
-      navigate("/dashboard"); // Redirect to Dashboard if signed in
+      navigate("/dashboard"); 
     } else {
-      navigate("/auth/sign-in"); // Redirect to Sign In if not signed in
+      navigate("/auth/sign-in"); 
     }
+  };
+
+  const handleOpenGitHub = () => {
+    window.open("https://github.com/GouravJchaturvedi/AI-RESUME-BUILDER", "_blank");
   };
 
   return (
@@ -45,7 +49,7 @@ function HomePage() {
         <div className="flex justify-center mt-4 gap-3">
           <Button
             className="gap-2 hover:scale-105 transition-all hover:shadow-md"
-            onClick={handleGetStarted} // Add onClick handler
+            onClick={handleGetStarted}
           >
             Get Started <ArrowRight />
           </Button>
@@ -58,12 +62,12 @@ function HomePage() {
           <Button
             variant="outline"
             className="border border-dotted border-gray-400 hover:scale-105 transition-all hover:shadow-md"
+            onClick={handleOpenGitHub} 
           >
             <GithubIcon /> Source Code
           </Button>
         </div>
 
-        {/* Feature Highlight Section */}
         <div className="flex flex-col items-center mt-28">
           <TypographyH1
             content={"Features"}
@@ -107,13 +111,6 @@ function HomePage() {
             </div>
           </div>
         </div>
-
-        {/* Testimonials Section */}
-        <div>
-          {/* Add Here Testimonials */}
-        </div>
-
-        {/* How It Works Section */}
         <div className="flex flex-col items-center mt-24">
           <TypographyH1
             content={"How It Works?"}
