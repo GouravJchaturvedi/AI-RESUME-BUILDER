@@ -1,11 +1,23 @@
 import React from "react";
+import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { TypographyH1 } from "./HeadingHero";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, GithubIcon, PenTool, PlayIcon } from "lucide-react";
 import TypewriterText from "./TypeWriter";
 
-
 function HomePage() {
+  const { isSignedIn } = useUser(); // Get the signed-in status
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleGetStarted = () => {
+    if (isSignedIn) {
+      navigate("/dashboard"); // Redirect to Dashboard if signed in
+    } else {
+      navigate("/auth/sign-in"); // Redirect to Sign In if not signed in
+    }
+  };
+
   return (
     <div>
       <div>
@@ -31,7 +43,10 @@ function HomePage() {
         </div>
         <TypewriterText />
         <div className="flex justify-center mt-4 gap-3">
-          <Button className="gap-2 hover:scale-105 transition-all hover:shadow-md">
+          <Button
+            className="gap-2 hover:scale-105 transition-all hover:shadow-md"
+            onClick={handleGetStarted} // Add onClick handler
+          >
             Get Started <ArrowRight />
           </Button>
           <Button
@@ -93,9 +108,10 @@ function HomePage() {
           </div>
         </div>
 
-       <div>
-        {/* Add Here Testimonials */}
-       </div>
+        {/* Testimonials Section */}
+        <div>
+          {/* Add Here Testimonials */}
+        </div>
 
         {/* How It Works Section */}
         <div className="flex flex-col items-center mt-24">
@@ -105,7 +121,7 @@ function HomePage() {
             size={"2xl"}
             className="text-center my-7"
           />
-          <div className="flex flex-col md:flex-row gap-6 max-w-4xl w-full  mb-20">
+          <div className="flex flex-col md:flex-row gap-6 max-w-4xl w-full mb-20">
             <div className="flex-1 p-6 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md ">
               <TypographyH1
                 content={"1. Start with a Template"}
@@ -129,8 +145,6 @@ function HomePage() {
             </div>
           </div>
         </div>
-
-       
       </div>
     </div>
   );

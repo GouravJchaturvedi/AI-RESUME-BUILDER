@@ -11,9 +11,7 @@ function App() {
   const location = useLocation();
   const [count, setCount] = useState(0);
 
-  if (!isSignedIn && isLoaded) {
-    return <Navigate to="/auth/sign-in" />;
-  }
+  
 
   const isLandingPage = location.pathname === "/";
 
