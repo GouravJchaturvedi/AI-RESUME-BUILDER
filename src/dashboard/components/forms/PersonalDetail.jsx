@@ -35,8 +35,13 @@ function PersonalDetail({ enabledNext }) {
     setLoading(true);
 
     const data = {
-      data: formData,
+      data: {
+        Experience: experinceList.map(({ id, ...rest }) => rest),
+      },
     };
+
+    console.log(experinceList)
+    
     GlobalApi.updateResumeDetail(params?.resumeId, data).then(
       (resp) => {
         console.log(resp);

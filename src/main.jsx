@@ -35,9 +35,9 @@ const router = createBrowserRouter([
     element: <SignInPage />,
   },
   {
-    path:'/my-resume/:resumeId/view',
-    element: <ViewResume/>
-  }
+    path: "/my-resume/:resumeId/view",
+    element: <ViewResume />,
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(

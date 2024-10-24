@@ -5,25 +5,27 @@ import { UserButton, useUser } from "@clerk/clerk-react";
 
 function Header() {
   const { user, isSignedIn } = useUser();
-  const [isLoading, setIsLoading] = useState(true); // State to track loading
+  const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
     const handleUserStateChange = () => {
-      setIsLoading(true); // Set loading to true when user state changes
+      setIsLoading(true); 
       const timer = setTimeout(() => {
-        setIsLoading(false); // Stop loading after a short delay
-      }, 500); // Adjust time as necessary
+        setIsLoading(false); 
+      }, 500); 
 
-      return () => clearTimeout(timer); // Clean up on unmount
+      return () => clearTimeout(timer); 
     };
 
     handleUserStateChange();
-  }, [isSignedIn]); // Effect runs when the sign-in state changes
+  }, [isSignedIn]); 
 
   return (
     <div className="p-3 px-5 flex justify-between shadow-md">
-      <img src="/logo.svg" alt="logo" width={60} height={60} />
-      {!isLoading && ( // Render buttons only when loading is complete
+      <Link to={"/"}>
+        <img src="/logo.svg" alt="logo" width={60} height={60} />
+      </Link>
+      {!isLoading && ( 
         isSignedIn ? (
           <div className="flex gap-2 items-center rounded-xl">
             <Link to={"/dashboard"}>

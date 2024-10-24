@@ -6,33 +6,43 @@ import GlobalApi from "../../../../service/GlobalApi";
 import { useParams } from "react-router-dom";
 import { Brain, LoaderCircle } from "lucide-react";
 import { AIChatSession } from "../../../../service/AIModel";
+import { toast } from "sonner";
 
 const prompt =
   "Job Title : {jobTitle}, Based on job title give me 4-5 lines summary for the Resume. Give only on one para and that should have 4 or 5 lines";
+
 function Summary({ enabledNext }) {
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
-  const [summaryInput, setSummaryInput] = useState();
+  const [summaryInput, setSummaryInput] = useState(resumeInfo?.summary || "");
   const [loading, setLoading] = useState(false);
   const params = useParams();
 
   useEffect(() => {
-    summaryInput &&
-      setResumeInfo({
-        ...resumeInfo,
-        summary: summaryInput,
-      });
+    setResumeInfo((prev) => ({
+      ...prev,
+      summary: summaryInput,
+    }));
   }, [summaryInput]);
 
   const generateSummaryFromAI = async () => {
-    setLoading(true)
+    setLoading(true);
     const PROMPT = prompt.replace("{jobTitle}", resumeInfo?.jobTitle);
-    console.log(PROMPT);
-    const result = await AIChatSession.sendMessage(PROMPT);
-    console.log(result.response.text());
-    setLoading(false)
+    try {
+      const result = await AIChatSession.sendMessage(PROMPT);
+      const summary = result.response.text();
+      setSummaryInput(summary);
+      setResumeInfo((prev) => ({
+        ...prev,
+        summary,
+      }));
+    } catch (error) {
+      console.error("Error generating summary:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const onSave = (e) => {
+  const onSave = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -41,18 +51,18 @@ function Summary({ enabledNext }) {
         summary: summaryInput,
       },
     };
-    GlobalApi.updateResumeDetail(params?.resumeId, data).then(
-      (resp) => {
-        console.log(resp);
-        enabledNext(true);
-        setLoading(false);
-        toast("Details Updated");
-      },
-      (error) => {
-        setLoading(false);
-      }
-    );
+    try {
+      const resp = await GlobalApi.updateResumeDetail(params?.resumeId, data);
+      console.log(resp);
+      enabledNext(true);
+      toast("Details Updated");
+    } catch (error) {
+      console.error("Error updating resume details:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <div>
       <div className="p-5 shadow-lg rounded-lg border-t-black border-t-4 mt-10">
@@ -63,10 +73,10 @@ function Summary({ enabledNext }) {
           <div className="flex justify-between items-end">
             <label>Add Summary</label>
             <Button
-              onClick={()=> generateSummaryFromAI()}
+              onClick={generateSummaryFromAI}
               variant="outline"
               type="button"
-              className="border-gray-800  transition duration-300 ease-in-out hover:bg-gray-900 hover:text-white flex gap-2"
+              className="border-gray-800 transition duration-300 ease-in-out hover:bg-gray-900 hover:text-white flex gap-2"
             >
               <Brain className="h-4 w-4" />
               Generate from AI
@@ -75,6 +85,7 @@ function Summary({ enabledNext }) {
           <Textarea
             required
             className="mt-4"
+            value={summaryInput}
             onChange={(e) => setSummaryInput(e.target.value)}
           />
           <div className="mt-2 flex justify-end">

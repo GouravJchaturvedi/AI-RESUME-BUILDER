@@ -118,7 +118,7 @@ function Skills() {
         </div>
         <div className="mt-3 flex justify-end">
           <Button 
-            onClick={onSave} // Call onSave when the button is clicked
+            onClick={onSave} 
             disabled={loading}
           >
             {loading ? <LoaderCircle className="animate-spin" /> : "Save"}

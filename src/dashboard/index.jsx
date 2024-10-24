@@ -1,35 +1,44 @@
 import React, { useEffect, useState } from "react";
-import AddResume from "./components/AddResume";
 import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
+import AddResume from "./components/AddResume";
 import GlobalApi from "./../../service/GlobalApi";
 import ResumeCardItem from "./components/ResumeCardItem";
-import { Loader } from "lucide-react"; // Import the Loader icon
+import { Loader } from "lucide-react";
 
 function Dashboard() {
-  const { user, isLoaded } = useUser(); // Destructure user and isLoaded
+  const { user, isLoaded } = useUser();
   const [resumeList, setResumeList] = useState([]);
-  const [isContentLoaded, setIsContentLoaded] = useState(false); // State to track if content is loaded
+  const [isContentLoaded, setIsContentLoaded] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (isLoaded && !user) {
+      navigate("/auth/sign-in");
+      return;
+    }
+
     const getResumeList = async () => {
       if (isLoaded && user?.primaryEmailAddress?.emailAddress) {
         try {
-          const resp = await GlobalApi.getUserResumes(user.primaryEmailAddress.emailAddress);
+          const resp = await GlobalApi.getUserResumes(
+            user.primaryEmailAddress.emailAddress
+          );
           setResumeList(resp.data.data);
         } catch (error) {
-          console.error("Error fetching resumes:", error); // Enhanced logging
+          console.error("Error fetching resumes:", error);
         } finally {
-          setIsContentLoaded(true); // Set content loaded to true
+          setIsContentLoaded(true);
         }
       }
     };
 
     getResumeList();
-  }, [isLoaded, user]);
+  }, [isLoaded, user, navigate]);
 
   return (
     <div className="p-10 md:px-20 lg:px-32">
-      {isContentLoaded ? ( // Render content only if it's fully loaded
+      {isContentLoaded ? (
         <>
           <h2 className="font-bold text-3xl">My Resume</h2>
           <p className="uppercase">
@@ -44,7 +53,7 @@ function Dashboard() {
         </>
       ) : (
         <div className="flex items-center justify-center h-full">
-          <Loader className="animate-spin w-8 h-8" /> {/* Spinner icon */}
+          <Loader className="animate-spin w-8 h-8" />
         </div>
       )}
     </div>

@@ -19,7 +19,6 @@ const updateResumeDetail = (id, data) =>
 
 const getResumeById = (id) => axiosClient.get(`/user-resumes/${id}?populate=*`);
 
-
 export default {
   createNewResume,
   getUserResumes,

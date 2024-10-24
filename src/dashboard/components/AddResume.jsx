@@ -1,4 +1,4 @@
-import { Loader2, PlusSquare } from "lucide-react";
+import { Loader2, PlusSquare, X } from "lucide-react";
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { v4 as uuid } from "uuid";
@@ -8,11 +8,10 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import GlobalApi from "./../../../service/GlobalApi";
-import { data } from "autoprefixer";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 
@@ -48,6 +47,7 @@ function AddResume() {
       }
     );
   };
+
   return (
     <div>
       <div
@@ -59,12 +59,17 @@ function AddResume() {
       <Dialog open={openDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create new Resume</DialogTitle>
+            <div className="flex justify-between items-center">
+              <DialogTitle>Create new Resume</DialogTitle>
+              <DialogClose onClick={() => setOpenDialog(false)}>
+                <X className="h-5 w-5 cursor-pointer" />
+              </DialogClose>
+            </div>
             <DialogDescription>
               <p>Add a Title for your new Resume</p>
               <Input
                 className="mt-2"
-                placeholder="Ex.Full Stack Developer"
+                placeholder="Ex. Full Stack Developer"
                 onChange={(e) => setResumeTitle(e.target.value)}
               />
             </DialogDescription>
