@@ -48,6 +48,7 @@ function HomePage() {
           </Button>
         </div>
 
+        {/* Feature Highlight Section */}
         <div className="flex flex-col items-center mt-28">
           <TypographyH1
             content={"Features"}
@@ -92,6 +93,11 @@ function HomePage() {
           </div>
         </div>
 
+       <div>
+        {/* Add Here Testimonials */}
+       </div>
+
+        {/* How It Works Section */}
         <div className="flex flex-col items-center mt-24">
           <TypographyH1
             content={"How It Works?"}
@@ -103,21 +109,21 @@ function HomePage() {
             <div className="flex-1 p-6 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md ">
               <TypographyH1
                 content={"1. Start with a Template"}
-                color={"text-gray-700"}
+                color={"text-black"}
               />
               <p>Select a professional template to get started.</p>
             </div>
             <div className="flex-1 p-6 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md ">
               <TypographyH1
                 content={"2. Customize Your Details"}
-                color={"text-gray-700"}
+                color={"text-black"}
               />
               <p>Fill in your information and adjust as needed.</p>
             </div>
             <div className="flex-1 p-6 bg-white rounded-lg shadow-lg hover:scale-105 transition-all hover:shadow-md ">
               <TypographyH1
                 content={"3. Download Your Resume"}
-                color={"text-gray-600"}
+                color={"text-black"}
               />
               <p>Save your resume in multiple formats.</p>
             </div>
