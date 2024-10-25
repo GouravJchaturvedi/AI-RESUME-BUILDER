@@ -10,7 +10,7 @@ function ExperiencePreview({ resumeInfo }) {
         Professional Experience
       </h2>
       <hr style={{ borderColor: resumeInfo?.themeColor }} />
-      {resumeInfo?.experience?.map((exp, index) => (
+      {resumeInfo?.Experience?.map((exp, index) => (
         <div key={index} className="my-4">
           <h2
             className="text-sm font-bold"

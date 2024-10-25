@@ -13,32 +13,37 @@ function ViewResume() {
   const [resumeInfo, setResumeInfo] = useState();
   const { resumeId } = useParams();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (isLoaded) {
       if (!user) {
-        navigate("/"); 
+        navigate("/");
       } else {
         getResumeInfo();
       }
-      setLoading(false); 
     }
   }, [isLoaded, user, navigate]);
 
   const getResumeInfo = () => {
-    GlobalApi.getResumeById(resumeId).then((resp) => {
-      console.log(resp.data.data);
-      setResumeInfo(resp.data.data);
-    });
-  };
-
-  const handleDownload = () => {
-    window.print();
+    GlobalApi.getResumeById(resumeId)
+      .then((resp) => {
+        console.log(resp.data.data);
+        setResumeInfo(resp.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching resume:", error);
+        setLoading(false);
+      });
   };
 
   if (loading) {
-    return null; 
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -50,11 +55,13 @@ function ViewResume() {
             Your resume is ready! Download it now!
           </h2>
           <div className="flex justify-end gap-3 mt-6 my-6">
-            <Button onClick={handleDownload}>Download</Button>
+            <Button onClick={() => window.print()}>Download</Button>
             <RWebShare
               data={{
                 text: "Hello! I'm excited to share my resume with you. Please open the URL to view it.",
-                url: `${import.meta.env.VITE_BASE_URL}/my-resume/${resumeId}/view`,
+                url: `${
+                  import.meta.env.VITE_BASE_URL
+                }/my-resume/${resumeId}/view`,
                 title: `${resumeInfo?.firstName} ${resumeInfo?.lastName} resume`,
               }}
               onClick={() => console.log("shared successfully!")}

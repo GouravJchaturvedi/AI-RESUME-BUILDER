@@ -8,19 +8,19 @@ import GlobalApi from "../../../../service/GlobalApi";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 
-const formField = {
-  title: "",
-  companyName: "",
-  city: "",
-  state: "",
-  startDate: "",
-  endDate: "",
-  workSummary: "",
-};
-
 function Experience() {
   const [loading, setLoading] = useState(false);
-  const [experienceList, setExperienceList] = useState([formField]);
+  const [experienceList, setExperienceList] = useState([
+    {
+      title: "",
+      companyName: "",
+      city: "",
+      state: "",
+      startDate: "",
+      endDate: "",
+      workSummary: "",
+    },
+  ]);
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
   const params = useParams();
 
@@ -28,7 +28,18 @@ function Experience() {
     if (resumeInfo?.experience?.length) {
       setExperienceList(resumeInfo.experience);
     } else {
-      setExperienceList([formField]);
+      // Use the initial structure directly
+      setExperienceList([
+        {
+          title: "",
+          companyName: "",
+          city: "",
+          state: "",
+          startDate: "",
+          endDate: "",
+          workSummary: "",
+        },
+      ]);
     }
   }, [resumeInfo]);
 
@@ -41,7 +52,18 @@ function Experience() {
   };
 
   const addNewExperience = () => {
-    setExperienceList((prev) => [...prev, formField]);
+    setExperienceList((prev) => [
+      ...prev,
+      {
+        title: "",
+        companyName: "",
+        city: "",
+        state: "",
+        startDate: "",
+        endDate: "",
+        workSummary: "",
+      },
+    ]);
   };
 
   const removeExperience = () => {
@@ -59,24 +81,27 @@ function Experience() {
     setLoading(true);
     const data = {
       data: {
-        experience: experienceList.map(({ id, ...rest }) => rest),
+        Experience: experienceList,
       },
     };
 
-    GlobalApi.updateResumeDetail(params.resumeId, data)
-      .then((resp) => {
+    console.log(experienceList);
+
+    GlobalApi.updateResumeDetail(params?.resumeId, data).then(
+      (resp) => {
         console.log(resp);
         setLoading(false);
         toast.success("Details updated!");
-      })
-      .catch((error) => {
+      },
+      (error) => {
         setLoading(false);
+        console.error("Error updating resume:", error.response);
         toast.error("Server Error, Please try again");
-      });
+      }
+    );
   };
 
   useEffect(() => {
-    // Only update if experienceList has changed
     setResumeInfo((prev) => {
       if (JSON.stringify(prev.experience) !== JSON.stringify(experienceList)) {
         return {
@@ -84,7 +109,7 @@ function Experience() {
           experience: experienceList,
         };
       }
-      return prev; // Return previous state if no changes
+      return prev;
     });
   }, [experienceList, setResumeInfo]);
 
@@ -93,83 +118,92 @@ function Experience() {
       <h2 className="font-bold text-lg">Professional Experience</h2>
       <p>Add Your previous Job experience</p>
       <div>
-        {Array.isArray(experienceList) && experienceList.map((item, index) => (
-          <div key={index}>
-            <div className="grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg">
-              <div>
-                <label className="text-xs">Position Title</label>
-                <Input
-                  name="title"
-                  onChange={(e) => handleChange(index, e)}
-                  value={item?.title}
-                />
-              </div>
-              <div>
-                <label className="text-xs">Company Name</label>
-                <Input
-                  name="companyName"
-                  onChange={(e) => handleChange(index, e)}
-                  value={item?.companyName}
-                />
-              </div>
-              <div>
-                <label className="text-xs">City</label>
-                <Input
-                  name="city"
-                  onChange={(e) => handleChange(index, e)}
-                  value={item?.city}
-                />
-              </div>
-              <div>
-                <label className="text-xs">State</label>
-                <Input
-                  name="state"
-                  onChange={(e) => handleChange(index, e)}
-                  value={item?.state}
-                />
-              </div>
-              <div>
-                <label className="text-xs">Start Date</label>
-                <Input
-                  type="text"
-                  name="startDate"
-                  onChange={(e) => handleChange(index, e)}
-                  value={item?.startDate}
-                />
-              </div>
-              <div>
-                <label className="text-xs">End Date</label>
-                <Input
-                  type="text"
-                  name="endDate"
-                  onChange={(e) => handleChange(index, e)}
-                  value={item?.endDate}
-                />
-              </div>
-              <div className="col-span-2">
-                <RichTextEditor
-                  index={index}
-                  value={item?.workSummary}
-                  onRichTextEditorChange={(event) =>
-                    handleRichTextEditor(event, "workSummary", index)
-                  }
-                />
+        {Array.isArray(experienceList) &&
+          experienceList.map((item, index) => (
+            <div key={index}>
+              <div className="grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg">
+                <div>
+                  <label className="text-xs">Position Title</label>
+                  <Input
+                    name="title"
+                    onChange={(e) => handleChange(index, e)}
+                    value={item?.title}
+                  />
+                </div>
+                <div>
+                  <label className="text-xs">Company Name</label>
+                  <Input
+                    name="companyName"
+                    onChange={(e) => handleChange(index, e)}
+                    value={item?.companyName}
+                  />
+                </div>
+                <div>
+                  <label className="text-xs">City</label>
+                  <Input
+                    name="city"
+                    onChange={(e) => handleChange(index, e)}
+                    value={item?.city}
+                  />
+                </div>
+                <div>
+                  <label className="text-xs">State</label>
+                  <Input
+                    name="state"
+                    onChange={(e) => handleChange(index, e)}
+                    value={item?.state}
+                  />
+                </div>
+                <div>
+                  <label className="text-xs">Start Date</label>
+                  <Input
+                    type="text"
+                    name="startDate"
+                    onChange={(e) => handleChange(index, e)}
+                    value={item?.startDate}
+                  />
+                </div>
+                <div>
+                  <label className="text-xs">End Date</label>
+                  <Input
+                    type="text"
+                    name="endDate"
+                    onChange={(e) => handleChange(index, e)}
+                    value={item?.endDate}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <RichTextEditor
+                    index={index}
+                    value={item?.workSummary}
+                    onRichTextEditorChange={(event) =>
+                      handleRichTextEditor(event, "workSummary", index)
+                    }
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
       <div className="flex justify-between mt-5">
         <div className="flex gap-4">
-          <Button onClick={addNewExperience} variant="outline" className="text-primary">
+          <Button
+            onClick={addNewExperience}
+            variant="outline"
+            className="text-primary"
+          >
             + Add More Experience
           </Button>
-          <Button onClick={removeExperience} variant="outline" className="text-primary">
+          <Button
+            onClick={removeExperience}
+            variant="outline"
+            className="text-primary"
+          >
             - Remove
           </Button>
         </div>
         <div className="mt-3 flex justify-end">
-          <Button type="button" onClick={handleSave} disabled={loading}>
+          <Button type="button" onClick={() => handleSave()} disabled={loading}>
             {loading ? <LoaderCircle className="animate-spin" /> : "Save"}
           </Button>
         </div>

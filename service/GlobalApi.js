@@ -14,8 +14,7 @@ const createNewResume = (data) => axiosClient.post("/user-resumes", data);
 const getUserResumes = (userEmail) =>
   axiosClient.get(`/user-resumes?filters[userEmail][$eq]=${userEmail}`);
 
-const updateResumeDetail = (id, data) =>
-  axiosClient.put(`/user-resumes/${id}`, data);
+const updateResumeDetail=(id,data)=>axiosClient.put('/user-resumes/'+id,data)
 
 const getResumeById = (id) => axiosClient.get(`/user-resumes/${id}?populate=*`);
 

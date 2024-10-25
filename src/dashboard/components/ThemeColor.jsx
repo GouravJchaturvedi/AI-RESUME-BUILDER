@@ -36,25 +36,30 @@ function ThemeColor() {
   ];
 
   const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
-  const [selectedColor , setSelectedColor] = useState();
-  const {resumeId} = useParams()
+  const [selectedColor, setSelectedColor] = useState();
+  const { resumeId } = useParams();
 
   const onColorSelect = (color) => {
-    setSelectedColor(color)
+    setSelectedColor(color);
     setResumeInfo({
       ...resumeInfo,
       themeColor: color,
     });
 
-    const data={
-        data:{
-            themeColor:color
-        }
-    }
-    GlobalApi.updateResumeDetail(resumeId , data).then(resp=>{
+    const data = {
+      data: {
+        themeColor: color,
+      },
+    };
+    GlobalApi.updateResumeDetail(resumeId, data)
+      .then((resp) => {
         console.log(resp);
-        toast.success('Theme Color updated')
-    })
+        toast.success("Theme Color updated");
+      })
+      .catch((error) => {
+        console.error("Error updating Theme Color:", error);
+        toast("Theme Color Failed to Save");
+      });
   };
 
   return (
