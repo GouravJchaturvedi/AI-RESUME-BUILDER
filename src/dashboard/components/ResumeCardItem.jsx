@@ -39,6 +39,8 @@ function ResumeCardItem({ resume, refreshData }) {
       },
       (error) => {
         setLoading(false);
+        openAlert(false);
+        toast.error("Delete Failed")
       }
     );
   };
@@ -65,7 +67,7 @@ function ResumeCardItem({ resume, refreshData }) {
             <DropdownMenuContent>
               <DropdownMenuItem
                 onClick={() =>
-                  navigation("/dashboard/resume" + resume.documentId + "/edit")
+                  navigation("/dashboard/resume/" + resume.documentId + "/edit")
                 }
               >
                 Edit
